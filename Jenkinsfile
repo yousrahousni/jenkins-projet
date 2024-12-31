@@ -22,7 +22,7 @@ pipeline {
             steps {
                 script {
                     //ss
-                    docker.withRegistry('https://registry.hub.docker.com', 'dockerhub-credentials') {
+                    docker.withRegistry('https://registry.hub.docker.com', 'dockerhub-cred') {
                         docker.image('yousrahousni/jenkins-projet:latest').push('latest')
                     }
                 }
