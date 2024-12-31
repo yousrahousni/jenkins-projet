@@ -7,7 +7,7 @@ COPY . /var/www/html/
 # Étape 3 : Installer les extensions nécessaires (exemple : PDO MySQL)
 RUN docker-php-ext-install pdo pdo_mysql
 
-# Étape 4 : Configurer les permissions des fichiers
+# Étape 4 : Configurer les permissions des fichier
 RUN chown -R www-data:www-data /var/www/html
 
 # Étape 5 : Exposer le port 80 pour l'application web

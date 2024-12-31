@@ -21,6 +21,7 @@ pipeline {
         stage('Push Docker Image') {
             steps {
                 script {
+                    //ss
                     docker.withRegistry('https://registry.hub.docker.com', 'dockerhub-credentials') {
                         docker.image('yousrahousni/jenkins-projet:latest').push('latest')
                     }
