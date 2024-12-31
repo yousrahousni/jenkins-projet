@@ -1,32 +1,51 @@
 pipeline {
     agent any
-
     stages {
-        stage('Checkout') {
+        stage('Clone Repository') {
             steps {
-                // Cloner le dépôt GitHub
-                git branch: 'main', url: 'https://github.com/yousrahousni/jenkins-projet.git'
+                git branch: 'main', url: 'https://github.com/yousrahousni/jenkins-projet'
             }
         }
-
+       
         stage('Build Docker Image') {
             steps {
                 script {
+                   
+                    sh '''
+                    docker build -t yousrahousni/jenkins-projet .
+                    '''
+                }
+            }
+        }
+       
+        stage('Tag Docker Image') {
+            steps {
+                script {
                     
-                    docker.build('yousrahousni/jenkins-projet:latest')
+                    sh '''
+                    docker tagyousrahousni/jenkins-projet yousrahousni/jenkins-projet:latest
+                    '''
                 }
             }
         }
 
-        stage('Push Docker Image') {
+        stage('Push Image') {
             steps {
-                script {
-                    //ss
-                    docker.withRegistry('https://registry.hub.docker.com', 'dockerhub-cred') {
-                        docker.image('yousrahousni/jenkins-projet:latest').push('latest')
+                withCredentials([usernamePassword(credentialsId: 'dockeryousra', usernameVariable: 'DOCKER_USER', passwordVariable: 'DOCKER_PASS')]) {
+                    script {
+                        
+                        sh '''
+                        docker login -u $DOCKER_USER -p $DOCKER_PASS
+                        docker push yousrahousni/jenkins-projet:latest
+                        '''
                     }
                 }
             }
+        }
+    }
+    post {
+        always {
+            echo ' Image pusher.'
         }
     }
 }
