@@ -23,7 +23,7 @@ pipeline {
                 script {
                     
                     sh '''
-                    docker tagyousrahousni/jenkins-projet yousrahousni/jenkins-projet:latest
+                    docker tag yousrahousni/jenkins-projet yousrahousni/jenkins-projet:latest
                     '''
                 }
             }
